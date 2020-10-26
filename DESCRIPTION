@@ -18,3 +18,5 @@ LinkingTo:
     Rcpp
 Imports: 
     Rcpp
+URL: https://github.com/zamorarr/lshr
+BugReports: https://github.com/zamorarr/lshr/issues

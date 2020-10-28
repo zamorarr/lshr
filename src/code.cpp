@@ -40,64 +40,53 @@ void mergeGroups(std::unordered_map<int, std::vector<int>> &groups, std::vector<
   groups.erase(to_group);
 }
 
-void assertSequential(std::set<int> x) {
-  // check that set is  sequential by comparing size to max value
-  int x_min = *x.begin();
-  if (x_min != 0) {
-    Rcpp::stop("node ids must start from 0");
-  }
-
-  int x_max = *x.rbegin();
-  int x_size = x.size();
-
-  if (x_max != (x_size - 1)) {
-    Rcpp::stop("node ids must be in sequential order");
-  }
-}
-
 // [[Rcpp::export]]
 List groupEdges(const IntegerVector from, const IntegerVector to) {
   // create unique set of nodes
-  std::set<int> nodes;
+  std::set<int> nodes_set;
   set_union(
     from.begin(), from.end(),
     to.begin(), to.end(),
-    std::inserter(nodes, nodes.begin())
+    std::inserter(nodes_set, nodes_set.begin())
   );
 
-  // check that nodes are sequential
-  assertSequential(nodes);
+  // copy set back to vector. maybe not the most elegant...
+  std::vector<int> nodes(nodes_set.begin(), nodes_set.end());
+  nodes_set.clear();
 
   // initialize each node to its own group
   // initialize each group to contain just one node
   int nodes_size = nodes.size();
+  std::unordered_map<int, int> node_ids;
   std::vector<int> node_group(nodes_size);
   std::unordered_map<int, std::vector<int>> groups;
 
-  //for (int i = 0; i < nodes.size(); i++) {
-  for (auto const el: nodes) {
-    node_group[el] = el;
-    groups[el] = {el};
+  for (int i = 0; i < nodes.size(); i++) {
+    node_ids[nodes[i]] = i;
+    node_group[i] = i;
+    groups[i] = {i};
+  //for (auto const el: nodes) {
+    //node_group[el] = el;
+    //groups[el] = {el};
   }
 
   // loop through edges, merging groups
   int len = from.size();
   for (int i = 0; i < len; i++) {
-    mergeGroups(groups, node_group, from[i], to[i]);
+    mergeGroups(groups, node_group, node_ids[from[i]], node_ids[to[i]]);
   }
 
   // create output
-  std::vector<int> node_ids(nodes.size());
   std::vector<int> group_ids(nodes.size());
 
   int i = 0;
   for(auto const node: nodes) {
-    node_ids[i] = node;
-    group_ids[i] = node_group[node];
+    //node_ids[i] = node;
+    group_ids[i] = node_group[node_ids[node]];
     i++;
   }
 
-  return List::create(Named("node") = node_ids , Named("group") = group_ids);
+  return List::create(Named("group") = group_ids, Named("node") = nodes);
 }
 
 /*** R

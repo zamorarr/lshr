@@ -5,6 +5,9 @@ shingle <- function(x, tokenizer = tokenizers::tokenize_words) {
   # tokenize each document
   s <- tokenizer(x)
 
+  # make sure documents are sets
+  s <- lapply(s, unique)
+
   # find unique shingles
   s_unique <- unique(unlist(s))
 

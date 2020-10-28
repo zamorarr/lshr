@@ -4,9 +4,17 @@
 \name{lshr-package}
 \alias{lshr}
 \alias{lshr-package}
-\title{lshr: What the Package Does (One Line, Title Case)}
+\title{lshr: An attempt at LSH}
 \description{
-What the package does (one paragraph).
+Attempt to do locality sensitive hashing
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/zamorarr/lshr}
+  \item Report bugs at \url{https://github.com/zamorarr/lshr/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Robert Zamora \email{zamora.rr@gmail.com}

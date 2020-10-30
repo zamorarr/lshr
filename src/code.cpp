@@ -17,6 +17,19 @@ void print(std::unordered_map<int, std::vector<int>> const &map) {
 }
 
 
+// [[Rcpp::export]]
+std::unordered_map<std::string, std::vector<int>> createBuckets(CharacterVector x) {
+  std::unordered_map<std::string, std::vector<int>> map;
+
+  std::string key;
+  for (int i = 0; i < x.size(); i++) {
+    key = as<std::string>(x[i]);
+    map[key].push_back(i + 1);
+  }
+
+  return map;
+}
+
 void mergeGroups(std::unordered_map<int, std::vector<int>> &groups, std::vector<int> &node_group, const int from, const int to) {
   // exit if groups are the same
   int from_group = node_group[from];
@@ -90,5 +103,5 @@ List groupEdges(const IntegerVector from, const IntegerVector to) {
 }
 
 /*** R
-timesTwo(42)
+
 */

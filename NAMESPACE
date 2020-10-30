@@ -2,13 +2,10 @@
 
 export(build_edges)
 export(group_edges)
-export(group_edges_rcpp)
 export(jaccard_minhashes)
 export(jaccard_shingles)
 export(lsh)
 export(minhash)
-export(prune_edges)
-export(prune_results)
 export(shingle)
 export(start_profiler)
 export(stop_profiler)

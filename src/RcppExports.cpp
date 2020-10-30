@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// createBuckets
+std::unordered_map<std::string, std::vector<int>> createBuckets(CharacterVector x);
+RcppExport SEXP _lshr_createBuckets(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(createBuckets(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // groupEdges
 List groupEdges(const IntegerVector from, const IntegerVector to);
 RcppExport SEXP _lshr_groupEdges(SEXP fromSEXP, SEXP toSEXP) {
@@ -40,6 +51,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_lshr_createBuckets", (DL_FUNC) &_lshr_createBuckets, 1},
     {"_lshr_groupEdges", (DL_FUNC) &_lshr_groupEdges, 2},
     {"_lshr_startProfiler", (DL_FUNC) &_lshr_startProfiler, 1},
     {"_lshr_stopProfiler", (DL_FUNC) &_lshr_stopProfiler, 0},

@@ -5,25 +5,18 @@ lsh_minhash <- function(m, rows_per_band = 5) {
   results <- lapply(bands, function(b) {
     m_band <- m[b:(b + rows_per_band - 1L),]
     hashes <- apply(m_band, 2, digest::digest, "murmur32")
-    buckets <- create_buckets(hashes)
+    buckets <- createBuckets(hashes)
 
     # Filter results with only one entry
     purrr::keep(buckets, ~ length(.x) > 1)
-    #Filter(function(x) length(x) > 1, buckets)
   })
 
-  #results <- Filter(function(x) length(x) > 0, results)
+  # clean up results
   results <- purrr::compact(results)
   results <- purrr::flatten(results)
   results[!duplicated(results)]
 }
 
-create_buckets <- function(x) {
-  bucket_names <- unique(x)
-  lapply(bucket_names, function(nm) {
-    which(x == nm)
-  })
-}
 
 #' Locality Sensitivity Hashing
 #'

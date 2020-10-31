@@ -99,7 +99,7 @@ List groupEdges(const IntegerVector from, const IntegerVector to) {
     i++;
   }
 
-  return List::create(Named("group") = group_ids, Named("node") = nodes);
+  return List::create(Named("group") = group_ids, Named("doc") = nodes);
 }
 
 /*** R

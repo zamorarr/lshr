@@ -1,16 +1,15 @@
 #' @export
 build_edges <- function(results, shingles, threshold = 0.8) {
-  bucket_sizes <- vapply(results, length, integer(1L))
-  #bucket_edges <- vapply(bucket_sizes, function(n) sum(seq_len(n - 1)), integer(1L))
-  bucket_edges <- choose(bucket_sizes, 2)
-  num_edges <- sum(bucket_edges)
-
-  from <- integer(num_edges)
-  to <- integer(num_edges)
-
-  k <- 1L
-  for (bucket in results) {
+  edges <- lapply(results, function(bucket) {
+    #for (bucket in results) {
+    bucket <- sort(bucket) # to ensure a-b and b-a edges are always a-b
     len <- length(bucket)
+
+    max_edges <- choose(len, 2)
+    from <- integer(max_edges)
+    to <- integer(max_edges)
+
+    k <- 1L
     for (i in 1:(len - 1)) {
       for (j in (i + 1):len) {
         score <- jaccard_shingles(shingles[[bucket[i]]], shingles[[bucket[j]]])
@@ -22,10 +21,38 @@ build_edges <- function(results, shingles, threshold = 0.8) {
         }
       }
     }
+
+    # trim results
+    from <- from[seq_len(k - 1)]
+    to <- to[seq_len(k - 1)]
+    tibble::tibble(from = from, to = to)
+  })
+
+  # combine bucket results
+  edges <- do.call(rbind, edges)
+  edges <- edges[!duplicated(edges),]
+  edges
+}
+
+#' @export
+group_edges <- function(edges, docs = NULL) {
+  result <- groupEdges(edges$from, edges$to)
+  result$group <- dense_rank(result$group)
+
+  # order by group
+  result <- tibble::as_tibble(result)
+  result <- result[order(result$group, result$doc),]
+
+  # add in docs
+  if (!is.null(docs)) {
+    result$text <- docs[result$doc]
   }
+  # return result
+  result
+}
 
-  from <- from[seq_len(k - 1)]
-  to <- to[seq_len(k - 1)]
-
-  list(from = from, to = to)
+#' @export
+tidy_candiates <- function(candidates, shingles, docs = NULL, threshold = 0.8) {
+  edges <- build_edges(candidates, shingles, threshold)
+  group_edges(edges, docs)
 }

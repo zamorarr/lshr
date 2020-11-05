@@ -8,6 +8,10 @@ lsh(s, hashes = 100, rows = 5)
 }
 \arguments{
 \item{s}{shingled document}
+
+\item{hashes}{number of hash functions}
+
+\item{rows}{number of rows per bands}
 }
 \description{
 Locality Sensitivity Hashing

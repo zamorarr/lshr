@@ -9,11 +9,3 @@ groupEdges <- function(from, to) {
     .Call(`_lshr_groupEdges`, from, to)
 }
 
-startProfiler <- function(str) {
-    .Call(`_lshr_startProfiler`, str)
-}
-
-stopProfiler <- function() {
-    .Call(`_lshr_stopProfiler`)
-}
-

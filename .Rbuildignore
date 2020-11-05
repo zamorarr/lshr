@@ -1,2 +1,5 @@
 ^lshr\.Rproj$
 ^\.Rproj\.user$
+data
+data-raw
+^LICENSE\.md$

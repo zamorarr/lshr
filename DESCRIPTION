@@ -6,17 +6,23 @@ Authors@R:
            family = "Zamora",
            role = c("aut", "cre"),
            email = "zamora.rr@gmail.com")
-Description: Attempt to do locality sensitive hashing
-License: What license it uses
+Description: Attempt to do locality sensitive hashing.
+License: MIT + file LICENSE
+URL: https://github.com/zamorarr/lshr
+BugReports: https://github.com/zamorarr/lshr/issues
+Imports: 
+    pbmcapply,
+    Rcpp,
+    tokenizers,
+    digest,
+    fastmatch,
+    purrr,
+    tibble
+Suggests: 
+    testthat (>= 2.1.0)
+LinkingTo: 
+    Rcpp
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-Suggests: 
-    testthat (>= 2.1.0)
 RoxygenNote: 6.1.1
-LinkingTo: 
-    Rcpp
-Imports: 
-    Rcpp
-URL: https://github.com/zamorarr/lshr
-BugReports: https://github.com/zamorarr/lshr/issues

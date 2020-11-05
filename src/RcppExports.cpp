@@ -28,33 +28,10 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// startProfiler
-SEXP startProfiler(SEXP str);
-RcppExport SEXP _lshr_startProfiler(SEXP strSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type str(strSEXP);
-    rcpp_result_gen = Rcpp::wrap(startProfiler(str));
-    return rcpp_result_gen;
-END_RCPP
-}
-// stopProfiler
-SEXP stopProfiler();
-RcppExport SEXP _lshr_stopProfiler() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(stopProfiler());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lshr_createBuckets", (DL_FUNC) &_lshr_createBuckets, 1},
     {"_lshr_groupEdges", (DL_FUNC) &_lshr_groupEdges, 2},
-    {"_lshr_startProfiler", (DL_FUNC) &_lshr_startProfiler, 1},
-    {"_lshr_stopProfiler", (DL_FUNC) &_lshr_stopProfiler, 0},
     {NULL, NULL, 0}
 };
 

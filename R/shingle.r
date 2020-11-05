@@ -1,7 +1,5 @@
 #' @export
 shingle <- function(x, tokenizer = tokenizers::tokenize_words) {
-  cat("shingling\n")
-
   # tokenize each document
   s <- tokenizer(x)
 

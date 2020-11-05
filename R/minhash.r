@@ -10,7 +10,7 @@ minhash <- function(shingles, n = 100, seed = NULL) {
   f <- minhash_generator(n, seed)
 
   # generate minhash for every shingle
-  vals <- lapply(shingles, f)
+  vals <- pbmcapply::pbmclapply(shingles, f)
 
   # build minhash matrix
   matrix(unlist(vals), nrow = n)

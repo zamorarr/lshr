@@ -6,7 +6,7 @@
 \alias{lshr-package}
 \title{lshr: An attempt at LSH}
 \description{
-Attempt to do locality sensitive hashing
+Attempt to do locality sensitive hashing.
 }
 \seealso{
 Useful links:

@@ -3,8 +3,6 @@
 #' @param shingles list of shingled documents (from \code{shingle_*()} functions)
 #' @param n number of minhashes per document
 #' @param seed optional seed used when generating minhash functions
-#'
-#' @export
 minhash <- function(shingles, n = 100, seed = NULL) {
   # generate minhasher
   f <- minhash_generator(n, seed)
@@ -41,7 +39,7 @@ minhash_generator <- function(n, seed = NULL) {
   }
 }
 
-#' @export
+#' jaccard similarity on minhashes
 jaccard_minhashes <- function(x, y) {
   mean(x == y)
 }

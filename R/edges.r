@@ -1,6 +1,13 @@
-#' @export
-build_edges <- function(results, shingles, threshold = 0.8) {
-  edges <- lapply(results, function(bucket) {
+#' Build edge data frame between documents
+#'
+#' Builds an edge list based on whether documents are similar based on their
+#' shingles. Uses the candidates list to make comparing document much faster.
+#'
+#' @param candidates list of buckets with document ids from \code{lsh}
+#' @param shingles list of documents and their shingles from \code{shingle}
+#' @param threshold jaccard similarity threshold
+build_edges <- function(candidates, shingles, threshold = 0.8) {
+  edges <- lapply(candidates, function(bucket) {
     #for (bucket in results) {
     bucket <- sort(bucket) # to ensure a-b and b-a edges are always a-b
     len <- length(bucket)
@@ -34,7 +41,12 @@ build_edges <- function(results, shingles, threshold = 0.8) {
   edges
 }
 
-#' @export
+#' Group documents together into a cluster
+#'
+#' Similiar process to grouping vertices together that share edges into components
+#'
+#' @param edges data frame from \code{build_edges}
+#' @param docs optional text data to include in results
 group_edges <- function(edges, docs = NULL) {
   result <- groupEdges(edges$from, edges$to)
   result$group <- dense_rank(result$group)
@@ -51,8 +63,17 @@ group_edges <- function(edges, docs = NULL) {
   result
 }
 
+#' Tidy candidate results
+#'
+#' Uses \code{jaccard_shingles} to compare candidate pairs from \code{lsh} to determine
+#' which documents are actually similar.
+#'
+#' @param candidates list of buckets with document ids from \code{lsh}
+#' @param shingles list of documents and their shingles from \code{shingle}
+#' @param docs optional text data to include in results
+#' @param threshold jaccard similarity threshold
 #' @export
-tidy_candiates <- function(candidates, shingles, docs = NULL, threshold = 0.8) {
+tidy_candidates <- function(candidates, shingles, docs = NULL, threshold = 0.8) {
   edges <- build_edges(candidates, shingles, threshold)
   group_edges(edges, docs)
 }
